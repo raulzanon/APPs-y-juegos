@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ficha de trabajo · Apps y juegos online</title>
+<style>
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body {
+    margin: 0; background: #eef3f8; color: #17283b;
+    font: 1rem/1.55 system-ui, sans-serif;
+  }
+  main { width: min(900px, 94%); margin: 2rem auto; }
+  header, section { padding: clamp(1rem, 4vw, 2rem); border-radius: 14px; }
+  header { background: #132c46; color: white; }
+  header p, h1 { margin: .25rem 0; }
+  header .curso { color: #a6e4df; }
+  nav { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+  button {
+    font: inherit; font-weight: 650; color: #132c46; background: white;
+    border: 1px solid #647b91; border-radius: 8px;
+    padding: .65rem .9rem; cursor: pointer;
+  }
+  button[aria-selected="true"], button[type="submit"] {
+    background: #075b57; border-color: #075b57; color: white;
+  }
+  :focus-visible { outline: 3px solid #a44600; outline-offset: 3px; }
+  section { background: white; border: 1px solid #c8d5e2; }
+  h2 { margin: 0 0 .5rem; }
+  h3, strong { color: #075b57; }
+  .pregunta { margin: 1.25rem 0; }
+  label { display: block; margin-bottom: .4rem; }
+  label strong { display: block; }
+  textarea, input[type="text"] {
+    display: block; width: 100%; padding: .65rem; font: inherit; color: inherit;
+    background: #fbfdff; border: 1px solid #647b91; border-radius: 7px;
+  }
+  textarea { min-height: 6rem; resize: vertical; }
+  input[type="text"] { max-width: 32rem; margin-bottom: 1rem; }
+  fieldset {
+    min-width: 0; margin: 1rem 0; padding: .65rem 1rem;
+    border: 1px solid #c8d5e2; border-radius: 8px;
+  }
+  legend { font-weight: 650; padding: 0 .3rem; }
+  .opcion { display: flex; gap: .55rem; align-items: baseline; cursor: pointer; }
+  .opcion input { flex: none; accent-color: #075b57; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="curso">Educación financiera y consumo responsable · 4.º de ESO</p>
+    <h1>Apps y juegos online</h1>
+    <p>Lee el manual y los dos casos. Responde con tus palabras y descarga el PDF antes de cerrar la ficha.</p>
+  </header>
+
+  <nav id="pestanas" role="tablist" aria-label="Apartados de la ficha"></nav>
+  <div id="paneles"></div>
+  <noscript>Activa JavaScript para rellenar la ficha y descargar el PDF.</noscript>
+</main>
+
+<script>
+"use strict";
+
+const apartados = [
+  {
+    titulo: "Antes de empezar",
+    intro: "Responde individualmente después de leer el manual.",
+    preguntas: [
+      ["Micropagos y Pay-to-Win (pp. 3 y 8)",
+       "¿En qué se diferencia un micropago que solo cambia el aspecto de un personaje de uno que da una ventaja en la partida? ¿Cuál encaja en el modelo Pay-to-Win y por qué?"],
+      ["Cajas botín y monedas virtuales (pp. 4–6)",
+       "¿Qué es una caja botín? Explica qué diferencia hay entre abrir una caja y comprar directamente un objeto conocido, y por qué pagar con gemas puede dificultar saber cuánto dinero real llevas gastado."],
+      ["Permisos de las apps (pp. 6 y 8)",
+       "¿Qué recomienda el manual hacer antes de conceder un permiso a una app? Pon un ejemplo de un permiso que rechazarías en un juego y explica por qué no lo necesita."]
+    ]
+  },
+  {
+    titulo: "Operación Tántalo",
+    intro: "Observad las viñetas del caso de Hugo. Apoyad las respuestas en detalles del cómic y distinguid lo que veis de vuestra interpretación.",
+    preguntas: [
+      ["El primer impulso de compra",
+       "¿Qué desencadena el primer impulso de compra de Hugo en la viñeta 1? ¿Cómo puede aprovechar el juego la frustración de haber perdido para animarle a pagar por una ventaja?"],
+      ["La sensación de «casi ganar»",
+       "¿Qué recursos visuales y psicológicos hacen que Hugo crea que está a punto de conseguir la espada? Explicad por qué esa sensación puede animarle a abrir otra caja."],
+      ["De euros a gemas",
+       "¿Por qué puede interesarle al juego que Hugo convierta primero el dinero real en gemas o monedas virtuales? ¿Cómo influye eso en su percepción del precio?"],
+      ["Los 200 €",
+       "¿Por qué Hugo no es consciente del gasto acumulado hasta que su madre le habla de la notificación del banco? ¿Qué aviso o límite habría podido ayudarle a detectarlo antes?"],
+      ["Conclusiones del debate",
+       "¿Cómo pueden influir el Pay-to-Win y la presión por tener una skin o un personaje concreto en las compras impulsivas? Explicad por qué la habilidad del jugador y el azar de una caja botín no son lo mismo."]
+    ]
+  },
+  {
+    titulo: "Operación Hormiga",
+    intro: "Leed el caso de María. Distinguid las compras que reconoce de los cargos que habría que comprobar. No escribáis datos bancarios reales.",
+    preguntas: [
+      ["Guía de uso seguro de apps",
+       "Redactad una guía breve para jóvenes. Explicad qué revisar en las condiciones de uso antes de instalar una app, cómo decidir qué permisos conceder y cómo controlar las compras dentro de la aplicación."],
+      ["Juego de rol: atención al cliente",
+       "Escribid el diálogo entre María y el servicio de atención al cliente. Explicad qué cargos habría que comprobar, qué documentos usaríais como prueba y cómo pediríais un reembolso si se confirma un cobro no autorizado o incorrecto."],
+      ["Análisis de términos y condiciones",
+       "Elegid una app conocida y consultad sus términos y condiciones. Anotad el nombre de la app y el enlace consultado. Resumid al menos tres apartados importantes, prestando atención a las compras, la protección de datos y el uso de información personal."]
+    ],
+    test: [
+      ["¿Cuál es la mejor manera de evitar cargos no autorizados en aplicaciones móviles?", [
+        "Desinstalar cualquier app que tenga compras incluidas.",
+        "Configurar un método de pago con límites y revisar los cargos regularmente.",
+        "No aceptar los términos y condiciones de ninguna app.",
+        "Usar siempre tarjetas de crédito para pagar en apps."
+      ]],
+      ["¿Cuál es la mejor práctica antes de realizar una compra dentro de una aplicación?", [
+        "Comprar inmediatamente para aprovechar las ofertas.",
+        "Leer los términos y condiciones y verificar el coste total.",
+        "Confiar en las recomendaciones de la aplicación sin revisar los detalles.",
+        "Realizar compras solo cuando el saldo de la tarjeta sea alto."
+      ]],
+      ["¿Qué deberías hacer si te han cobrado más de lo que esperabas en una compra dentro de una app?", [
+        "Ignorar el cargo y asumir la pérdida.",
+        "Contactar con atención al cliente de la aplicación o de la tienda de aplicaciones.",
+        "Desinstalar la aplicación inmediatamente sin reclamar.",
+        "Esperar a ver si el cargo se ajusta en los próximos días."
+      ]],
+      ["¿Qué es lo primero que debes hacer al instalar una aplicación nueva?", [
+        "Aceptar todos los permisos sin leerlos para empezar a usarla rápidamente.",
+        "Revisar los permisos que solicita y decidir si son necesarios.",
+        "Realizar una compra dentro de la app para probarla.",
+        "Compartir la app con amigos antes de usarla."
+      ]]
+    ]
+  }
+];
+
+const $ = id => document.getElementById(id);
+function crear(tipo, texto) {
+  const nodo = document.createElement(tipo);
+  if (texto !== undefined) nodo.textContent = texto;
+  return nodo;
+}
+
+const titulos = [...apartados.map(a => a.titulo), "descarga tu trabajo"];
+const pestanas = [], paneles = [], campos = [];
+
+function activar(indice) {
+  pestanas.forEach((boton, i) => {
+    boton.setAttribute("aria-selected", String(i === indice));
+    boton.tabIndex = i === indice ? 0 : -1;
+    paneles[i].hidden = i !== indice;
+  });
+}
+
+titulos.forEach((titulo, i) => {
+  const tab = crear("button", titulo);
+  tab.type = "button";
+  tab.id = `tab-${i}`;
+  tab.setAttribute("role", "tab");
+  tab.setAttribute("aria-controls", `panel-${i}`);
+  tab.addEventListener("click", () => activar(i));
+  tab.addEventListener("keydown", e => {
+    const n = titulos.length;
+    const destinos = {
+      ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n,
+      Home: 0, End: n - 1
+    };
+    if (!Object.hasOwn(destinos, e.key)) return;
+    e.preventDefault();
+    activar(destinos[e.key]);
+    pestanas[destinos[e.key]].focus();
+  });
+  $("pestanas").append(tab);
+  pestanas.push(tab);
+
+  const panel = crear("section");
+  panel.id = `panel-${i}`;
+  panel.hidden = true;
+  panel.setAttribute("role", "tabpanel");
+  panel.setAttribute("aria-labelledby", tab.id);
+  $("paneles").append(panel);
+  paneles.push(panel);
+
+  const apartado = apartados[i];
+  if (!apartado) {
+    const form = crear("form");
+    form.id = "entrega";
+    const label = crear("label", "Nombre y apellidos");
+    label.htmlFor = "nombre";
+    const input = crear("input");
+    input.id = "nombre";
+    input.type = "text";
+    input.required = true;
+    input.maxLength = 100;
+    input.autocomplete = "name";
+    const boton = crear("button", "Descargar respuestas en PDF");
+    boton.type = "submit";
+    form.append(label, input, boton);
+    panel.append(form);
+    return;
+  }
+
+  panel.append(crear("h2", titulo), crear("p", apartado.intro));
+  campos[i] = apartado.preguntas.map(([tema, pregunta], j) => {
+    const bloque = crear("div");
+    bloque.className = "pregunta";
+    const etiqueta = crear("label");
+    const area = crear("textarea");
+    const encabezado = `${j + 1}. ${tema}`;
+    area.id = `respuesta-${i}-${j}`;
+    etiqueta.htmlFor = area.id;
+    etiqueta.append(crear("strong", encabezado), document.createTextNode(pregunta));
+    bloque.append(etiqueta, area);
+    panel.append(bloque);
+    return { encabezado, pregunta, leer: () => area.value.trim() };
+  });
+
+  if (apartado.test) {
+    panel.append(crear("h3", "Test de Operación Hormiga"));
+    apartado.test.forEach(([pregunta, opciones], j) => {
+      const grupo = crear("fieldset");
+      const encabezado = `Test ${j + 1}`;
+      grupo.append(crear("legend", `${encabezado}. ${pregunta}`));
+      opciones.forEach((opcion, k) => {
+        const etiqueta = crear("label");
+        etiqueta.className = "opcion";
+        const radio = crear("input");
+        radio.type = "radio";
+        radio.name = `test-${i}-${j}`;
+        radio.value = `${"ABCD"[k]}) ${opcion}`;
+        etiqueta.append(radio, crear("span", radio.value));
+        grupo.append(etiqueta);
+      });
+      panel.append(grupo);
+      campos[i].push({
+        encabezado, pregunta,
+        leer: () => grupo.querySelector("input:checked")?.value || ""
+      });
+    });
+  }
+});
+activar(0);
+
+// PDF A4 de texto generado en el navegador, sin librerías externas.
+const win1252 = "€\0‚ƒ„…†‡ˆ‰Š‹Œ\0Ž\0\0‘’“”•–—˜™š›œ\0žŸ";
+
+function literalPDF(texto) {
+  return Array.from(texto.normalize("NFC"), c => {
+    const n = c.codePointAt(0);
+    if (n >= 32 && n <= 126) return "\\()".includes(c) ? "\\" + c : c;
+    const indice = win1252.indexOf(c);
+    const byte = n >= 160 && n <= 255 ? n : indice >= 0 && n !== 0 ? indice + 128 : 63;
+    return "\\" + byte.toString(8).padStart(3, "0");
+  }).join("");
+}
+
+function generarPDF(nombre) {
+  const paginas = [[]];
+  const ctx = document.createElement("canvas").getContext("2d");
+  let y = 790;
+
+  function nuevaPagina() { paginas.push([]); y = 790; }
+
+  function ajustar(texto, tam, negrita) {
+    ctx.font = `${negrita ? "bold " : ""}${tam}px Arial, sans-serif`;
+    const cabe = s => ctx.measureText(s).width <= 480;
+    return texto.split(/\r\n?|\n/).flatMap(parrafo => {
+      const lineas = [];
+      let linea = "";
+      for (const palabra of parrafo.trim().split(/\s+/)) {
+        const candidata = linea ? `${linea} ${palabra}` : palabra;
+        if (cabe(candidata)) {
+          linea = candidata;
+        } else {
+          if (linea) lineas.push(linea);
+          linea = "";
+          for (const letra of palabra) {
+            if (linea && !cabe(linea + letra)) {
+              lineas.push(linea);
+              linea = "";
+            }
+            linea += letra;
+          }
+        }
+      }
+      return [...lineas, linea];
+    });
+  }
+
+  function escribir(texto, tam = 11, negrita = false, espacio = 6) {
+    for (const linea of ajustar(texto, tam, negrita)) {
+      if (y < 55) nuevaPagina();
+      paginas[paginas.length - 1].push(
+        `BT /${negrita ? "B" : "R"} ${tam} Tf 1 0 0 1 54 ${y} Tm (${literalPDF(linea)}) Tj ET\n`
+      );
+      y -= tam + 4;
+    }
+    y -= espacio;
+  }
+
+  escribir("Ficha de trabajo: Apps y juegos online", 18, true);
+  escribir(`Nombre y apellidos: ${nombre}`, 12, false, 15);
+  apartados.forEach((apartado, i) => {
+    if (y < 160) nuevaPagina();
+    escribir(apartado.titulo, 15, true, 8);
+    campos[i].forEach(({ encabezado, pregunta, leer }) => {
+      const alto = ajustar(encabezado, 11, true).length * 15 +
+                   ajustar(pregunta, 10, false).length * 14;
+      if (y < 78 + alto) nuevaPagina();
+      escribir(encabezado, 11, true, 2);
+      escribir(pregunta, 10, false, 5);
+      escribir(leer() || "Sin responder", 11, false, 12);
+    });
+  });
+
+  const objetos = [
+    "<< /Type /Catalog /Pages 2 0 R >>",
+    `<< /Type /Pages /Count ${paginas.length} /Kids [${paginas.map((_, i) => `${5 + 2*i} 0 R`).join(" ")}] >>`,
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>",
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>"
+  ];
+
+  paginas.forEach((lineas, i) => {
+    const pie = literalPDF(`Página ${i + 1} de ${paginas.length}`);
+    const contenido = lineas.join("") + `BT /R 9 Tf 1 0 0 1 54 30 Tm (${pie}) Tj ET\n`;
+    objetos.push(
+      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /R 3 0 R /B 4 0 R >> >> /Contents ${6 + 2*i} 0 R >>`,
+      `<< /Length ${contenido.length} >>\nstream\n${contenido}endstream`
+    );
+  });
+
+  // El contenido serializado es ASCII: los índices son también offsets de bytes.
+  let pdf = "%PDF-1.4\n";
+  const posiciones = [];
+  objetos.forEach((objeto, i) => {
+    posiciones.push(pdf.length);
+    pdf += `${i + 1} 0 obj\n${objeto}\nendobj\n`;
+  });
+  const xref = pdf.length;
+  pdf += `xref\n0 ${objetos.length + 1}\n0000000000 65535 f \n`;
+  posiciones.forEach(p => { pdf += `${String(p).padStart(10, "0")} 00000 n \n`; });
+  pdf += `trailer\n<< /Size ${objetos.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+  return new Blob([pdf], { type: "application/pdf" });
+}
+
+$("nombre").addEventListener("input", () => $("nombre").setCustomValidity(""));
+$("entrega").addEventListener("submit", e => {
+  e.preventDefault();
+  const nombre = $("nombre").value.trim();
+  if (!nombre) {
+    $("nombre").setCustomValidity("Escribe tu nombre y apellidos.");
+    $("nombre").reportValidity();
+    return;
+  }
+  const enlace = crear("a");
+  const url = URL.createObjectURL(generarPDF(nombre));
+  const sufijo = nombre.replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "");
+  enlace.href = url;
+  enlace.download = `Ficha-apps-y-juegos-${sufijo || "entrega"}.pdf`;
+  document.body.append(enlace);
+  enlace.click();
+  enlace.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+});
+</script>
+</body>
+</html>
